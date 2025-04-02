@@ -58,24 +58,34 @@ async function ordercake() {
     const phone = document.getElementById('phone').value;
     const info = document.getElementById('info').value;
 
+    // Log the data being sent
+    console.log('Sending:', { consumer, flavour, quantity, phone, info });
+
     try {
         const response = await fetch('https://can-be.onrender.com/order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ consumer, flavour, quantity, phone , info })
+            body: JSON.stringify({ consumer, flavour, quantity, phone, info })
         });
+
+        const responseText = await response.text(); // Get raw response
+        console.log('Response:', response.status, responseText);
 
         if (response.ok) {
             alert('Order placed successfully');
         } else {
-            const data = await response.json();
-            alert('Error placing order: ' + data.message);
+            try {
+                const data = JSON.parse(responseText);
+                alert('Error placing order: ' + data.message);
+            } catch (e) {
+                alert('Error placing order: Server returned ' + response.status);
+            }
         }
     } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred while placing the order');
+        console.error('Fetch Error:', error.message);
+        alert('An error occurred while placing the order: ' + error.message);
     }
 }
 
