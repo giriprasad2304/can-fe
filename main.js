@@ -1,6 +1,6 @@
 async function fetchMenuData() {
     try {
-        const response = await fetch('http://localhost:3000/menu');
+        const response = await fetch('https://can-be.onrender.com/menu');
         const menuData = await response.json();
         return menuData;
     } catch (error) {
@@ -59,7 +59,7 @@ async function ordercake() {
     const info = document.getElementById('info').value;
 
     try {
-        const response = await fetch('http://localhost:3000/order', {
+        const response = await fetch('https://can-be.onrender.com/order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
